@@ -1,31 +1,43 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 char **tasks;
 int option;
+int numTasks = 1;
 
 #define MAX_LEN 100
 
 void addTasks()
 {
-    int counter = 1;
+    tasks = malloc(100 * sizeof(char *));
     while (1)
     {
-        printf("Enter Task #%d, type 1 to quit\n", counter);
-        tasks[counter] = malloc(MAX_LEN * sizeof(char));
-        fgets("%s", tasks[counter]);
-        printf("%s", tasks[counter]);
+        printf("Enter Task #%d, type 1 to quit\n", numTasks);
+        tasks[numTasks] = malloc(MAX_LEN * sizeof(char));
+        fgets(tasks[numTasks], MAX_LEN, stdin);
+        if (strcmp(tasks[numTasks], "1\n") == 0)
+        {
+            free(tasks[numTasks]);
+            for (int i = 0; i < numTasks; i++)
+            {
+                tasks[i] = tasks[i + 1];
+            }
+            numTasks--;
+            return;
+        }
+        else
+        {
+            numTasks++;
+        }
     }
 }
 
 void viewTasks()
 {
-    char **tasks;
-    while ((sizeof(tasks) / (sizeof(tasks[0]))) > 0)
+    for (int i = 0; i < numTasks; i++)
     {
-        for (int i = 0; i < sizeof(tasks) / sizeof(tasks[0]); i++)
-        {
-            printf("%s", tasks[i]);
-        }
+        printf("Task #%d: %s", i + 1, tasks[i]);
     }
 }
 void deleteTasks()
@@ -34,21 +46,40 @@ void deleteTasks()
 
 int main(void)
 {
-    printf("TO-DO List\n");
-    printf("[1] Add Tasks\n");
-    printf("[2] Delete Tasks\n");
-    printf("[3] Quit\n");
-
-    scanf("%d", &option);
-
-    if (option == 1)
+    while (1)
     {
-        addTasks();
-    }
-    else if (option == 2)
-    {
-    }
-    else if (option == 3)
+        printf("\nTO-DO List\n");
+        printf("[1] Add Tasks\n");
+        printf("[2] View Tasks\n");
+        printf("[3] Quit\n");
 
-        return 0;
+        scanf("%d", &option);
+        getchar();
+
+        if (option == 1)
+        {
+            addTasks();
+        }
+        else if (option == 2)
+        {
+            viewTasks();
+        }
+        else if (option == 3)
+        {
+            printf("Goodbye!\n");
+            break;
+        }
+        else
+        {
+            printf("Invalid option. Try again.\n");
+        }
+    }
+
+    for (int i = 0; i < numTasks; i++)
+    {
+        free(tasks[i]);
+    }
+    free(tasks);
+
+    return 0;
 }
