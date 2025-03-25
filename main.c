@@ -5,6 +5,7 @@
 char **tasks;
 int option;
 int numTasks = 0;
+int taskNum;
 
 #define MAX_LEN 100
 #define MAX_TASKS 100
@@ -41,6 +42,17 @@ void viewTasks()
 }
 void deleteTasks()
 {
+    printf("Enter Task to Delete, type -1 to quit\n");
+    fgets(taskNum, MAX_LEN, stdin);
+    for (int i = taskNum-1; i < numTasks; i++) {
+        numTasks[i] = numTasks[i+1];
+    }
+    numTasks--;
+    // get the index of the task the user wants to delete
+    // subtract index by 1
+    //shift all elements after the one we're done with 
+    // by 1 to the left 
+    // reduce the sie by 1
 }
 
 int main(void)
