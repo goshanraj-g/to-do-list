@@ -7,28 +7,24 @@ int option;
 int numTasks = 0;
 
 #define MAX_LEN 100
+#define MAX_TASKS 100
 
 void addTasks()
 {
-    tasks = malloc(MAX_LEN * sizeof(char *));
     while (1)
     {
-        printf("Enter Task #%d, type 1 to quit\n", numTasks);
+        printf("Enter Task #%d, type 1 to quit\n", numTasks + 1);
+        tasks[numTasks] = malloc(MAX_LEN * sizeof(char));
         fgets(tasks[numTasks], MAX_LEN, stdin);
-        if (strcmp(tasks[numTasks], "1\n") == 0)
+        tasks[numTasks][strcspn(tasks[numTasks], "\n")] = 0;
+
+        if (strcmp(tasks[numTasks], "1") == 0)
         {
             free(tasks[numTasks]);
-            for (int i = 0; i < numTasks; i++)
-            {
-                tasks[i] = tasks[i + 1];
-            }
-            numTasks--;
             return;
         }
-        else
-        {
-            numTasks++;
-        }
+
+        numTasks++;
     }
 }
 
@@ -37,6 +33,10 @@ void viewTasks()
     for (int i = 0; i < numTasks; i++)
     {
         printf("Task #%d: %s", i + 1, tasks[i]);
+        if (i < numTasks - 1)
+        {
+            printf("\n");
+        }
     }
 }
 void deleteTasks()
@@ -45,7 +45,7 @@ void deleteTasks()
 
 int main(void)
 {
-    tasks = malloc(MAX_LEN * sizeof(char *));
+    tasks = malloc(MAX_TASKS * sizeof(char *));
 
     while (1)
     {
