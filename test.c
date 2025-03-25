@@ -14,6 +14,7 @@ void addTasks()
     while (1)
     {
         printf("Enter Task #%d, type 1 to quit\n", numTasks);
+        tasks[numTasks] = malloc(MAX_LEN * sizeof(char));
         fgets(tasks[numTasks], MAX_LEN, stdin);
         if (strcmp(tasks[numTasks], "1\n") == 0)
         {
@@ -45,8 +46,6 @@ void deleteTasks()
 
 int main(void)
 {
-    tasks = malloc(MAX_LEN * sizeof(char *));
-
     while (1)
     {
         printf("\nTO-DO List\n");
@@ -59,6 +58,7 @@ int main(void)
 
         if (option == 1)
         {
+            numTasks += 1;
             addTasks();
         }
         else if (option == 2)
